@@ -27,12 +27,29 @@ new makeObject('usb', 'img/usb.gif');
 new makeObject('water-can', 'img/water-can.jpg');
 new makeObject('wine-glass', 'img/wine-glass.jpg');
 
-var imgEl = document.getElementById('image1');
-
-imgEl.addEventListener('click', randomImage);
-
-function randomImage() {
+var imgEl1 = document.getElementById('image1');
+var imgEl2 = document.getElementById('image2');
+var imgEl3 = document.getElementById('image3');
+imgEl1.addEventListener('click', executeImages);
+imgEl2.addEventListener('click', executeImages);
+imgEl3.addEventListener('click', executeImages);
+function randomImage1() {
   var randomIndex = Math.floor(Math.random() * holdingArray.length);
-  imgEl.src = holdingArray[randomIndex].filepath;
+  imgEl1.src = holdingArray[randomIndex].filepath;
 }
-randomImage();
+
+function randomImage2() {
+  var randomIndex = Math.floor(Math.random() * holdingArray.length);
+  imgEl2.src = holdingArray[randomIndex].filepath;
+}
+
+function randomImage3() {
+  var randomIndex = Math.floor(Math.random() * holdingArray.length);
+  imgEl3.src = holdingArray[randomIndex].filepath;
+}
+function executeImages() {
+  randomImage1();
+  randomImage2();
+  randomImage3();
+}
+executeImages();
