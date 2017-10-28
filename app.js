@@ -36,43 +36,45 @@ imgEl3.addEventListener('click', executeImages);
 var randomIndex1 = 1;
 var randomIndex2 = 2;
 var randomIndex3 = 3;
-// var previousIndex1 = -1;
-// var previousIndex2 = -1;
-// var previousIndex3 = -1;
-console.log(randomIndex1);
+var previousIndex1 = -1;
+var previousIndex2 = -1;
+var previousIndex3 = -1;
 function randomImage1() {
   randomIndex1 = Math.floor(Math.random() * holdingArray.length);
+  while (randomIndex1 === previousIndex1 || randomIndex1 === previousIndex2 || randomIndex1 === previousIndex3 ) {
+    randomIndex1 = Math.floor(Math.random() * holdingArray.length);
+  }
   imgEl1.src = holdingArray[randomIndex1].filepath;
-  console.log('randomimage1 index1 ' + randomIndex1);
-  console.log('randomimage1 index2 ' + randomIndex2);
-  console.log('randomimage1 index3 ' + randomIndex3);
-  // previousIndex1 = randomIndex1;
+
 }
 
 function randomImage2() {
   randomIndex2 = Math.floor(Math.random() * holdingArray.length);
-  while (randomIndex2 === randomIndex1) {
+  while (randomIndex2 === randomIndex1 || randomIndex2 === previousIndex1 || randomIndex2 === previousIndex2 || randomIndex2 === previousIndex3 ) {
     randomIndex2 = Math.floor(Math.random() * holdingArray.length);}
-  console.log('randomimage2 index1 ' + randomIndex1);
-  console.log('randomimage2 index2 ' + randomIndex2);
-  console.log('randomimage2 index3 ' + randomIndex3);
   imgEl2.src = holdingArray[randomIndex2].filepath;
-  // randomIndex2 = previousIndex2;
+
 }
 
 function randomImage3() {
   randomIndex3 = Math.floor(Math.random() * holdingArray.length);
-  while (randomIndex3 === randomIndex1 || randomIndex3 === randomIndex2) {
+  while (randomIndex3 === randomIndex1 || randomIndex3 === randomIndex2 || randomIndex3 === previousIndex1 || randomIndex3 === previousIndex2 || randomIndex3 === previousIndex3 ) {
     randomIndex3 = Math.floor(Math.random() * holdingArray.length);}
-  console.log('randomimage3 index1 ' + randomIndex1);
-  console.log('randomimage3 index2 ' + randomIndex2);
-  console.log('randomimage3 index3 ' + randomIndex3);
   imgEl3.src = holdingArray[randomIndex3].filepath;
-  // randomIndex3 = previousIndex3;
+
 }
 function executeImages() {
+  console.log('p1 ' + previousIndex1);
+  console.log('p2 ' + previousIndex2);
+  console.log('p3 ' + previousIndex3);
   randomImage1();
   randomImage2();
   randomImage3();
+  previousIndex1 = randomIndex1;
+  previousIndex2 = randomIndex2;
+  previousIndex3 = randomIndex3;
+  console.log('c1 ' + randomIndex1);
+  console.log('c1 ' + randomIndex2);
+  console.log('c1 ' + randomIndex3);
 }
 executeImages();
