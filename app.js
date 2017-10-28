@@ -14,26 +14,26 @@ function makeObject(name, filepath) {
   this.totalClicks = 0;
   this.timesShown = 0;
 }
-new makeObject('bag', 'img/bag.jpg');
-new makeObject('banana', 'img/banana.jpg');
-new makeObject('bathroom', 'img/bathroom.jpg');
-new makeObject('boots', 'img/boots.jpg');
-new makeObject('breakfast', 'img/breakfast.jpg');
-new makeObject('bubblegum', 'img/bubblegum.jpg');
-new makeObject('chair', 'img/chair.jpg');
-new makeObject('cthulhu', 'img/cthulhu.jpg');
-new makeObject('dog-duck', 'img/dog-duck.jpg');
-new makeObject('dragon', 'img/dragon.jpg');
-new makeObject('pen', 'img/pen.jpg');
-new makeObject('pet-sweep', 'img/pet-sweep.jpg');
-new makeObject('scissors', 'img/scissors.jpg');
-new makeObject('shark', 'img/shark.jpg');
-new makeObject('sweep', 'img/sweep.png');
-new makeObject('tauntaun', 'img/tauntaun.jpg');
-new makeObject('unicorn', 'img/unicorn.jpg');
-new makeObject('usb', 'img/usb.gif');
-new makeObject('water-can', 'img/water-can.jpg');
-new makeObject('wine-glass', 'img/wine-glass.jpg');
+new makeObject('Bag', 'img/bag.jpg');
+new makeObject('Banana', 'img/banana.jpg');
+new makeObject('Bathroom', 'img/bathroom.jpg');
+new makeObject('Boots', 'img/boots.jpg');
+new makeObject('Breakfast', 'img/breakfast.jpg');
+new makeObject('Bubblegum', 'img/bubblegum.jpg');
+new makeObject('Bhair', 'img/chair.jpg');
+new makeObject('Cthulhu', 'img/cthulhu.jpg');
+new makeObject('Dog-duck', 'img/dog-duck.jpg');
+new makeObject('Dragon', 'img/dragon.jpg');
+new makeObject('Pen', 'img/pen.jpg');
+new makeObject('Pet-Sweep', 'img/pet-sweep.jpg');
+new makeObject('Scissors', 'img/scissors.jpg');
+new makeObject('Shark', 'img/shark.jpg');
+new makeObject('Sweep', 'img/sweep.png');
+new makeObject('Tauntaun', 'img/tauntaun.jpg');
+new makeObject('Unicorn', 'img/unicorn.jpg');
+new makeObject('Usb', 'img/usb.gif');
+new makeObject('Water-Can', 'img/water-can.jpg');
+new makeObject('Wine-Glass', 'img/wine-glass.jpg');
 
 var imgEl1 = document.getElementById('image1');
 var imgEl2 = document.getElementById('image2');
@@ -48,15 +48,18 @@ imgEl3.addEventListener('click', executeImages);
 function totalClicks1() {
   holdingArray[randomIndex1].totalClicks++;
   pageTotalClicks++;
+  makeList();
 }
 function totalClicks2() {
   holdingArray[randomIndex2].totalClicks++;
   pageTotalClicks++;
   console.log(pageTotalClicks);
+  makeList();
 }
 function totalClicks3() {
   holdingArray[randomIndex3].totalClicks++;
   pageTotalClicks++;
+  makeList();
 }
 function randomImage1() {
   if (pageTotalClicks > 24){
@@ -103,3 +106,15 @@ function executeImages() {
   previousIndex3 = randomIndex3;
 }
 executeImages();
+
+function makeList() {
+  if (pageTotalClicks === 2) {
+    console.log('test');
+    var ulEl = document.getElementById('list');
+    for (var i = 0; i < holdingArray.length; i++) {
+      var liEl = document.createElement('li');
+      liEl.textContent = holdingArray[i].name + ' was selected ' + holdingArray[i].totalClicks + ' times';
+      ulEl.appendChild(liEl);
+    }
+  }
+}
