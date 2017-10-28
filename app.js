@@ -1,5 +1,11 @@
 'use strict';
 var holdingArray = [];
+var randomIndex1;
+var randomIndex2;
+var randomIndex3;
+var previousIndex1;
+var previousIndex2;
+var previousIndex3;
 
 function makeObject(name, filepath) {
   this.name = name;
@@ -32,15 +38,25 @@ new makeObject('wine-glass', 'img/wine-glass.jpg');
 var imgEl1 = document.getElementById('image1');
 var imgEl2 = document.getElementById('image2');
 var imgEl3 = document.getElementById('image3');
+imgEl1.addEventListener('click', totalClicks1);
+imgEl2.addEventListener('click', totalClicks2);
+imgEl3.addEventListener('click', totalClicks3);
 imgEl1.addEventListener('click', executeImages);
 imgEl2.addEventListener('click', executeImages);
 imgEl3.addEventListener('click', executeImages);
-var randomIndex1 = 1;
-var randomIndex2 = 2;
-var randomIndex3 = 3;
-var previousIndex1 = -1;
-var previousIndex2 = -1;
-var previousIndex3 = -1;
+
+function totalClicks1() {
+  holdingArray[randomIndex1].totalClicks++;
+  console.log(holdingArray[randomIndex1].totalClicks);
+}
+function totalClicks2() {
+  holdingArray[randomIndex2].totalClicks++;
+  console.log(holdingArray[randomIndex2].totalClicks);
+}
+function totalClicks3() {
+  holdingArray[randomIndex3].totalClicks++;
+  console.log(holdingArray[randomIndex3].totalClicks);
+}
 function randomImage1() {
   randomIndex1 = Math.floor(Math.random() * holdingArray.length);
   while (randomIndex1 === previousIndex1 || randomIndex1 === previousIndex2 || randomIndex1 === previousIndex3 ) {
