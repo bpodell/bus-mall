@@ -5,6 +5,8 @@ function makeObject(name, filepath) {
   this.name = name;
   this.filepath = filepath;
   holdingArray.push(this);
+  this.totalClicks = 0;
+  this.timesShown = 0;
 }
 new makeObject('bag', 'img/bag.jpg');
 new makeObject('banana', 'img/banana.jpg');
@@ -44,16 +46,16 @@ function randomImage1() {
   while (randomIndex1 === previousIndex1 || randomIndex1 === previousIndex2 || randomIndex1 === previousIndex3 ) {
     randomIndex1 = Math.floor(Math.random() * holdingArray.length);
   }
+  holdingArray[randomIndex1].timesShown += 1;
   imgEl1.src = holdingArray[randomIndex1].filepath;
-
 }
 
 function randomImage2() {
   randomIndex2 = Math.floor(Math.random() * holdingArray.length);
   while (randomIndex2 === randomIndex1 || randomIndex2 === previousIndex1 || randomIndex2 === previousIndex2 || randomIndex2 === previousIndex3 ) {
     randomIndex2 = Math.floor(Math.random() * holdingArray.length);}
+  holdingArray[randomIndex2].timesShown += 1;
   imgEl2.src = holdingArray[randomIndex2].filepath;
-
 }
 
 function randomImage3() {
@@ -61,20 +63,14 @@ function randomImage3() {
   while (randomIndex3 === randomIndex1 || randomIndex3 === randomIndex2 || randomIndex3 === previousIndex1 || randomIndex3 === previousIndex2 || randomIndex3 === previousIndex3 ) {
     randomIndex3 = Math.floor(Math.random() * holdingArray.length);}
   imgEl3.src = holdingArray[randomIndex3].filepath;
-
+  holdingArray[randomIndex3].timesShown += 1;
 }
 function executeImages() {
-  console.log('p1 ' + previousIndex1);
-  console.log('p2 ' + previousIndex2);
-  console.log('p3 ' + previousIndex3);
   randomImage1();
   randomImage2();
   randomImage3();
   previousIndex1 = randomIndex1;
   previousIndex2 = randomIndex2;
   previousIndex3 = randomIndex3;
-  console.log('c1 ' + randomIndex1);
-  console.log('c2 ' + randomIndex2);
-  console.log('c3 ' + randomIndex3);
 }
 executeImages();
