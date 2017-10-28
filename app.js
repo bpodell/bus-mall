@@ -6,7 +6,7 @@ var randomIndex3;
 var previousIndex1;
 var previousIndex2;
 var previousIndex3;
-
+var pageTotalClicks = 0;
 function makeObject(name, filepath) {
   this.name = name;
   this.filepath = filepath;
@@ -47,17 +47,22 @@ imgEl3.addEventListener('click', executeImages);
 
 function totalClicks1() {
   holdingArray[randomIndex1].totalClicks++;
-  console.log(holdingArray[randomIndex1].totalClicks);
+  pageTotalClicks++;
 }
 function totalClicks2() {
   holdingArray[randomIndex2].totalClicks++;
-  console.log(holdingArray[randomIndex2].totalClicks);
+  pageTotalClicks++;
+  console.log(pageTotalClicks);
 }
 function totalClicks3() {
   holdingArray[randomIndex3].totalClicks++;
-  console.log(holdingArray[randomIndex3].totalClicks);
+  pageTotalClicks++;
 }
 function randomImage1() {
+  if (pageTotalClicks > 24){
+    imgEl1.removeEventListener('click', totalClicks1);
+    imgEl1.removeEventListener('click', executeImages);
+  }
   randomIndex1 = Math.floor(Math.random() * holdingArray.length);
   while (randomIndex1 === previousIndex1 || randomIndex1 === previousIndex2 || randomIndex1 === previousIndex3 ) {
     randomIndex1 = Math.floor(Math.random() * holdingArray.length);
@@ -67,6 +72,10 @@ function randomImage1() {
 }
 
 function randomImage2() {
+  if (pageTotalClicks > 24){
+    imgEl2.removeEventListener('click', totalClicks2);
+    imgEl2.removeEventListener('click', executeImages);
+  }
   randomIndex2 = Math.floor(Math.random() * holdingArray.length);
   while (randomIndex2 === randomIndex1 || randomIndex2 === previousIndex1 || randomIndex2 === previousIndex2 || randomIndex2 === previousIndex3 ) {
     randomIndex2 = Math.floor(Math.random() * holdingArray.length);}
@@ -75,6 +84,10 @@ function randomImage2() {
 }
 
 function randomImage3() {
+  if (pageTotalClicks > 24){
+    imgEl3.removeEventListener('click', totalClicks3);
+    imgEl3.removeEventListener('click', executeImages);
+  }
   randomIndex3 = Math.floor(Math.random() * holdingArray.length);
   while (randomIndex3 === randomIndex1 || randomIndex3 === randomIndex2 || randomIndex3 === previousIndex1 || randomIndex3 === previousIndex2 || randomIndex3 === previousIndex3 ) {
     randomIndex3 = Math.floor(Math.random() * holdingArray.length);}
