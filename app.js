@@ -74,7 +74,7 @@ function executeImages() {
   previousIndex2 = randomIndex2;
   previousIndex3 = randomIndex3;
   console.log('c1 ' + randomIndex1);
-  console.log('c1 ' + randomIndex2);
-  console.log('c1 ' + randomIndex3);
+  console.log('c2 ' + randomIndex2);
+  console.log('c3 ' + randomIndex3);
 }
 executeImages();
