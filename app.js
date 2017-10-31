@@ -108,7 +108,7 @@ function executeImages() {
 executeImages();
 
 function makeList() {
-  if (pageTotalClicks === 2) {
+  if (pageTotalClicks === 25) {
     console.log('test');
     var ulEl = document.getElementById('list');
     for (var i = 0; i < holdingArray.length; i++) {
