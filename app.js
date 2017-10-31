@@ -20,7 +20,7 @@ new makeObject('Bathroom', 'img/bathroom.jpg');
 new makeObject('Boots', 'img/boots.jpg');
 new makeObject('Breakfast', 'img/breakfast.jpg');
 new makeObject('Bubblegum', 'img/bubblegum.jpg');
-new makeObject('Bhair', 'img/chair.jpg');
+new makeObject('Chair', 'img/chair.jpg');
 new makeObject('Cthulhu', 'img/cthulhu.jpg');
 new makeObject('Dog-duck', 'img/dog-duck.jpg');
 new makeObject('Dragon', 'img/dragon.jpg');
@@ -48,18 +48,18 @@ imgEl3.addEventListener('click', executeImages);
 function totalClicks1() {
   holdingArray[randomIndex1].totalClicks++;
   pageTotalClicks++;
-  makeList();
+  makeChart();
 }
 function totalClicks2() {
   holdingArray[randomIndex2].totalClicks++;
   pageTotalClicks++;
   console.log(pageTotalClicks);
-  makeList();
+  makeChart();
 }
 function totalClicks3() {
   holdingArray[randomIndex3].totalClicks++;
   pageTotalClicks++;
-  makeList();
+  makeChart();
 }
 function randomImage1() {
   if (pageTotalClicks > 24){
@@ -107,14 +107,39 @@ function executeImages() {
 }
 executeImages();
 
-function makeList() {
+function makeChart() {
   if (pageTotalClicks === 25) {
-    console.log('test');
-    var ulEl = document.getElementById('list');
     for (var i = 0; i < holdingArray.length; i++) {
-      var liEl = document.createElement('li');
-      liEl.textContent = holdingArray[i].name + ' was selected ' + holdingArray[i].totalClicks + ' times';
-      ulEl.appendChild(liEl);
+      surveyData.push(holdingArray[i].totalClicks);
     }
+    myChart.update();
   }
 }
+
+var surveyData = [];
+
+var labelArray = [];
+for (var i = 0; i < holdingArray.length; i++) {
+  labelArray.push(holdingArray[i].name);
+}
+var ctx = document.getElementById('chart').getContext('2d');
+
+var myChart = new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: labelArray,
+    datasets: [{
+      label: '# of Votes',
+      data: surveyData,
+    }]
+  },
+  options: {
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true
+        }
+      }]
+    }
+  }
+});
