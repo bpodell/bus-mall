@@ -7,6 +7,17 @@ var previousIndex1;
 var previousIndex2;
 var previousIndex3;
 var pageTotalClicks = 0;
+var surveyData;
+var number;
+var currentNumbers = [];
+var previousNumbers = [];
+var imageDiv = document.getElementById('imagediv');
+if (localStorage.getItem('survey data')) {
+  surveyData = JSON.parse(localStorage.getItem('survey data'));
+} else {
+  surveyData = [];
+}
+
 function makeObject(name, filepath) {
   this.name = name;
   this.filepath = filepath;
@@ -20,7 +31,7 @@ new makeObject('Bathroom', 'img/bathroom.jpg');
 new makeObject('Boots', 'img/boots.jpg');
 new makeObject('Breakfast', 'img/breakfast.jpg');
 new makeObject('Bubblegum', 'img/bubblegum.jpg');
-new makeObject('Bhair', 'img/chair.jpg');
+new makeObject('Chair', 'img/chair.jpg');
 new makeObject('Cthulhu', 'img/cthulhu.jpg');
 new makeObject('Dog-duck', 'img/dog-duck.jpg');
 new makeObject('Dragon', 'img/dragon.jpg');
@@ -38,83 +49,105 @@ new makeObject('Wine-Glass', 'img/wine-glass.jpg');
 var imgEl1 = document.getElementById('image1');
 var imgEl2 = document.getElementById('image2');
 var imgEl3 = document.getElementById('image3');
-imgEl1.addEventListener('click', totalClicks1);
-imgEl2.addEventListener('click', totalClicks2);
-imgEl3.addEventListener('click', totalClicks3);
-imgEl1.addEventListener('click', executeImages);
-imgEl2.addEventListener('click', executeImages);
-imgEl3.addEventListener('click', executeImages);
+imageDiv.addEventListener('click', handleClick);
 
-function totalClicks1() {
-  holdingArray[randomIndex1].totalClicks++;
+function handleClick(e) {
+  if (pageTotalClicks === 24) {
+    imageDiv.removeEventListener('click', handleClick);
+  }
+  if (e.target.id === 'image1'){
+    totalClicks1();
+  }
+  if (e.target.id === 'image2'){
+    totalClicks2();
+  }
+  if (e.target.id === 'image3'){
+    totalClicks3();
+  }
+  executeImages();
+}
+
+function randomNumber() {
+  number = Math.floor(Math.random() * holdingArray.length);
+}
+
+function numberArrayGenerator() {
+  currentNumbers = [];
+  randomNumber();
+  for (var i = 0; i < 3; i++) {
+    while (currentNumbers.includes(number) || previousNumbers.includes(number)) {
+      randomNumber();
+    }
+    currentNumbers.push(number);
+  }
+}
+
+function totalClicks1(e) {
+  holdingArray[currentNumbers[0]].totalClicks++;
   pageTotalClicks++;
-  makeList();
+  makeChart();
 }
 function totalClicks2() {
-  holdingArray[randomIndex2].totalClicks++;
+  holdingArray[currentNumbers[1]].totalClicks++;
   pageTotalClicks++;
-  console.log(pageTotalClicks);
-  makeList();
+  makeChart();
 }
 function totalClicks3() {
-  holdingArray[randomIndex3].totalClicks++;
+  holdingArray[currentNumbers[2]].totalClicks++;
   pageTotalClicks++;
-  makeList();
-}
-function randomImage1() {
-  if (pageTotalClicks > 24){
-    imgEl1.removeEventListener('click', totalClicks1);
-    imgEl1.removeEventListener('click', executeImages);
-  }
-  randomIndex1 = Math.floor(Math.random() * holdingArray.length);
-  while (randomIndex1 === previousIndex1 || randomIndex1 === previousIndex2 || randomIndex1 === previousIndex3 ) {
-    randomIndex1 = Math.floor(Math.random() * holdingArray.length);
-  }
-  holdingArray[randomIndex1].timesShown += 1;
-  imgEl1.src = holdingArray[randomIndex1].filepath;
+  makeChart();
 }
 
-function randomImage2() {
-  if (pageTotalClicks > 24){
-    imgEl2.removeEventListener('click', totalClicks2);
-    imgEl2.removeEventListener('click', executeImages);
-  }
-  randomIndex2 = Math.floor(Math.random() * holdingArray.length);
-  while (randomIndex2 === randomIndex1 || randomIndex2 === previousIndex1 || randomIndex2 === previousIndex2 || randomIndex2 === previousIndex3 ) {
-    randomIndex2 = Math.floor(Math.random() * holdingArray.length);}
-  holdingArray[randomIndex2].timesShown += 1;
-  imgEl2.src = holdingArray[randomIndex2].filepath;
-}
-
-function randomImage3() {
-  if (pageTotalClicks > 24){
-    imgEl3.removeEventListener('click', totalClicks3);
-    imgEl3.removeEventListener('click', executeImages);
-  }
-  randomIndex3 = Math.floor(Math.random() * holdingArray.length);
-  while (randomIndex3 === randomIndex1 || randomIndex3 === randomIndex2 || randomIndex3 === previousIndex1 || randomIndex3 === previousIndex2 || randomIndex3 === previousIndex3 ) {
-    randomIndex3 = Math.floor(Math.random() * holdingArray.length);}
-  imgEl3.src = holdingArray[randomIndex3].filepath;
-  holdingArray[randomIndex3].timesShown += 1;
-}
 function executeImages() {
-  randomImage1();
-  randomImage2();
-  randomImage3();
-  previousIndex1 = randomIndex1;
-  previousIndex2 = randomIndex2;
-  previousIndex3 = randomIndex3;
+  numberArrayGenerator();
+  imgEl1.src = holdingArray[currentNumbers[0]].filepath;
+  holdingArray[currentNumbers[0]].timesShown += 1;
+  imgEl2.src = holdingArray[currentNumbers[1]].filepath;
+  holdingArray[currentNumbers[1]].timesShown += 1;
+  imgEl3.src = holdingArray[currentNumbers[2]].filepath;
+  holdingArray[currentNumbers[2]].timesShown += 1;
+  previousNumbers = currentNumbers;
 }
 executeImages();
+function makeChart() {
+  if (pageTotalClicks === 25) {
+    var ctx = document.getElementById('chart').getContext('2d');
 
-function makeList() {
-  if (pageTotalClicks === 2) {
-    console.log('test');
-    var ulEl = document.getElementById('list');
-    for (var i = 0; i < holdingArray.length; i++) {
-      var liEl = document.createElement('li');
-      liEl.textContent = holdingArray[i].name + ' was selected ' + holdingArray[i].totalClicks + ' times';
-      ulEl.appendChild(liEl);
+    var myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labelArray,
+        datasets: [{
+          label: '# of Votes',
+          data: surveyData,
+        }]
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
+      }
+    });
+    if (localStorage.getItem('survey data')) {
+      for (var i = 0; i < holdingArray.length; i++) {
+        surveyData[i] += holdingArray[i].totalClicks;
+      }
+    } else {
+      for (var j = 0; j < holdingArray.length; j++) {
+        surveyData.push(holdingArray[j].totalClicks);
+      }
     }
+    myChart.update();
+    var lsSurveyData = JSON.stringify(surveyData);
+    localStorage.setItem('survey data', lsSurveyData);
   }
+}
+
+var labelArray = [];
+for (var i = 0; i < holdingArray.length; i++) {
+  labelArray.push(holdingArray[i].name);
 }
