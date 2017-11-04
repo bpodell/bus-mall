@@ -7,6 +7,13 @@ var previousIndex1;
 var previousIndex2;
 var previousIndex3;
 var pageTotalClicks = 0;
+var surveyData;
+if (localStorage.getItem('survey data')) {
+  surveyData = JSON.parse(localStorage.getItem('survey data'));
+} else {
+  surveyData = [];
+}
+
 function makeObject(name, filepath) {
   this.name = name;
   this.filepath = filepath;
@@ -109,37 +116,43 @@ executeImages();
 
 function makeChart() {
   if (pageTotalClicks === 25) {
-    for (var i = 0; i < holdingArray.length; i++) {
-      surveyData.push(holdingArray[i].totalClicks);
+    var ctx = document.getElementById('chart').getContext('2d');
+
+    var myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labelArray,
+        datasets: [{
+          label: '# of Votes',
+          data: surveyData,
+        }]
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
+      }
+    });
+    if (localStorage.getItem('survey data')) {
+      for (var i = 0; i < holdingArray.length; i++) {
+        surveyData[i] += holdingArray[i].totalClicks;
+      }
+    } else {
+      for (var j = 0; j < holdingArray.length; j++) {
+        surveyData.push(holdingArray[j].totalClicks);
+      }
     }
     myChart.update();
+    var lsSurveyData = JSON.stringify(surveyData);
+    localStorage.setItem('survey data', lsSurveyData);
   }
 }
-
-var surveyData = [];
 
 var labelArray = [];
 for (var i = 0; i < holdingArray.length; i++) {
   labelArray.push(holdingArray[i].name);
 }
-var ctx = document.getElementById('chart').getContext('2d');
-
-var myChart = new Chart(ctx, {
-  type: 'bar',
-  data: {
-    labels: labelArray,
-    datasets: [{
-      label: '# of Votes',
-      data: surveyData,
-    }]
-  },
-  options: {
-    scales: {
-      yAxes: [{
-        ticks: {
-          beginAtZero: true
-        }
-      }]
-    }
-  }
-});
