@@ -74,14 +74,10 @@ function randomNumber() {
 function numberArrayGenerator() {
   currentNumbers = [];
   randomNumber();
-  console.log(currentNumbers);
   for (var i = 0; i < 3; i++) {
     while (currentNumbers.includes(number) || previousNumbers.includes(number)) {
       randomNumber();
     }
-    console.log('i =' + i);
-    console.log('currentNumbers[i] =' + currentNumbers[i]);
-    console.log('currentNumbers =' + currentNumbers);
     currentNumbers.push(number);
   }
 }
@@ -102,33 +98,8 @@ function totalClicks3() {
   makeChart();
 }
 
-// function randomImage1() {
-//   randomIndex1 = Math.floor(Math.random() * holdingArray.length);
-//   while (randomIndex1 === previousIndex1 || randomIndex1 === previousIndex2 || randomIndex1 === previousIndex3 ) {
-//     randomIndex1 = Math.floor(Math.random() * holdingArray.length);
-//   }
-//   holdingArray[randomIndex1].timesShown += 1;
-//   imgEl1.src = holdingArray[randomIndex1].filepath;
-// }
-//
-// function randomImage2() {
-//   randomIndex2 = Math.floor(Math.random() * holdingArray.length);
-//   while (randomIndex2 === randomIndex1 || randomIndex2 === previousIndex1 || randomIndex2 === previousIndex2 || randomIndex2 === previousIndex3 ) {
-//     randomIndex2 = Math.floor(Math.random() * holdingArray.length);}
-//   holdingArray[randomIndex2].timesShown += 1;
-//   imgEl2.src = holdingArray[randomIndex2].filepath;
-// }
-//
-// function randomImage3() {
-//   randomIndex3 = Math.floor(Math.random() * holdingArray.length);
-//   while (randomIndex3 === randomIndex1 || randomIndex3 === randomIndex2 || randomIndex3 === previousIndex1 || randomIndex3 === previousIndex2 || randomIndex3 === previousIndex3 ) {
-//     randomIndex3 = Math.floor(Math.random() * holdingArray.length);}
-//   imgEl3.src = holdingArray[randomIndex3].filepath;
-//   holdingArray[randomIndex3].timesShown += 1;
-// }
 function executeImages() {
   numberArrayGenerator();
-  console.log(currentNumbers);
   imgEl1.src = holdingArray[currentNumbers[0]].filepath;
   holdingArray[currentNumbers[0]].timesShown += 1;
   imgEl2.src = holdingArray[currentNumbers[1]].filepath;
@@ -138,7 +109,6 @@ function executeImages() {
   previousNumbers = currentNumbers;
 }
 executeImages();
-console.log(currentNumbers);
 function makeChart() {
   if (pageTotalClicks === 25) {
     var ctx = document.getElementById('chart').getContext('2d');
