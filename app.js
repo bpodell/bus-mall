@@ -8,6 +8,7 @@ var previousIndex2;
 var previousIndex3;
 var pageTotalClicks = 0;
 var surveyData;
+var imageDiv = document.getElementById('imagediv');
 if (localStorage.getItem('survey data')) {
   surveyData = JSON.parse(localStorage.getItem('survey data'));
 } else {
@@ -45,14 +46,22 @@ new makeObject('Wine-Glass', 'img/wine-glass.jpg');
 var imgEl1 = document.getElementById('image1');
 var imgEl2 = document.getElementById('image2');
 var imgEl3 = document.getElementById('image3');
-imgEl1.addEventListener('click', totalClicks1);
-imgEl2.addEventListener('click', totalClicks2);
-imgEl3.addEventListener('click', totalClicks3);
-imgEl1.addEventListener('click', executeImages);
-imgEl2.addEventListener('click', executeImages);
-imgEl3.addEventListener('click', executeImages);
+imageDiv.addEventListener('click', handleClick);
 
-function totalClicks1() {
+function handleClick(e) {
+  if (e.target.id === 'image1'){
+    totalClicks1();
+  }
+  if (e.target.id === 'image2'){
+    totalClicks2();
+  }
+  if (e.target.id === 'image3'){
+    totalClicks3();
+  }
+  executeImages();
+}
+
+function totalClicks1(e) {
   holdingArray[randomIndex1].totalClicks++;
   pageTotalClicks++;
   makeChart();
