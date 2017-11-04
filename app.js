@@ -14,6 +14,9 @@ function makeObject(name, filepath) {
   this.totalClicks = 0;
   this.timesShown = 0;
 }
+makeObject.prototype.percent = function() {
+  return Math.floor( (this.totalClicks / this.timesShown) * 100);
+};
 new makeObject('Bag', 'img/bag.jpg');
 new makeObject('Banana', 'img/banana.jpg');
 new makeObject('Bathroom', 'img/bathroom.jpg');
@@ -113,8 +116,14 @@ function makeList() {
     var ulEl = document.getElementById('list');
     for (var i = 0; i < holdingArray.length; i++) {
       var liEl = document.createElement('li');
-      liEl.textContent = holdingArray[i].name + ' was selected ' + holdingArray[i].totalClicks + ' times';
-      ulEl.appendChild(liEl);
+      if (holdingArray[i].timesShown === 0) {
+        console.log('inside if');
+        liEl.textContent = holdingArray[i].name + ' was not shown to the user.';
+        ulEl.appendChild(liEl);
+      } else {
+        liEl.textContent = holdingArray[i].name + ' was selected ' + holdingArray[i].percent() + ' percent of the times it was shown';
+        ulEl.appendChild(liEl);
+      }
     }
   }
 }
